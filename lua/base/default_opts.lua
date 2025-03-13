@@ -7,14 +7,14 @@ return {
 		-- 	"plugin/link",
 		-- 	name = "",
 		-- 	...
-		-- }.
+		-- },
 	},
 	after = function()
 		-- anything here gets executed on VimEnter after the config has been definitely loaded
 	end,
 	lsps = {
 		-- list of lsp names can be found in mason via the :Mason command
-		-- lsp_name = { lspopts },
+		-- lsp_name = { lspopts }, -- alternatively false to only install and not setup
 		lua_ls = { settings = { Lua = { callSnippet = "Replace" } } },
 	},
 	formatters = {
@@ -24,7 +24,7 @@ return {
 			-- "mason_package_names",
 		},
 		-- possible formatters https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters
-		-- filetype = { "formatter1", "foramtter2", stop_after_first = false},
+		-- filetype = { "formatter1", "foramtter2", stop_after_first = false },
 	},
 	-- setup examples in https://github.com/stevearc/conform.nvim?tab=readme-ov-file#customizing-formatters
 	custom_formatters = {
@@ -81,3 +81,4 @@ return {
 		},
 	},
 };
+
