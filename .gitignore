@@ -1,0 +1,5 @@
+lazy-lock.json
+opts.lua
+*/**/opts.lua
+**/opts.lua
+*/opts.lua
