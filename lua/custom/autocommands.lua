@@ -61,3 +61,13 @@ new_aucmd("VimEnter", {
 	group = AUGRP,
 	callback = function() OPTS.after() end
 });
+
+-- make and load views (to retain folds)
+new_aucmd( { "BufWritePre", "BufWinLeave", "BufLeave" }, {
+	group = AUGRP,
+	command = "silent! mkview"
+});
+new_aucmd("BufWinEnter" , {
+	group = AUGRP,
+	command = "silent! loadview"
+});

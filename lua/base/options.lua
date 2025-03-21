@@ -11,14 +11,14 @@ opt.signcolumn = "number";                                                      
 opt.foldmethod = "manual";
 opt.foldcolumn = "0";
 opt.foldtext = "";
-opt.foldlevel = 0;                                                                                                       -- folds higher than this level will be closed (presumably when a file is opened for the first time
-opt.foldlevelstart = 999;                                                                                                -- set to a very high number so that folds dont get closed during buffer switches
+opt.foldlevelstart = 1;                                                                                                  -- the fold level above which all folds will be closed when opening a buffer for the first time
 opt.foldnestmax = 9;
+opt.foldcolumn = "auto:9";
 
 -- text wrapping
 opt.wrap = false;
 opt.textwidth = 0;
-opt.colorcolumn = "81,101";
+opt.colorcolumn = "81";
 
 -- cursor movement
 opt.whichwrap:append("h");
