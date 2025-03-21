@@ -79,6 +79,14 @@ return {
 				{ desc = "plugins/telescope: fuzzy find through project files" }
 			)
 			NMAP(
+				"<leader>FF", function() telescope_builtin.find_files({ hidden = true }) end,
+				{ desc = "plugins/telescope: fuzzy find through project files" }
+			)
+			NMAP(
+				"<leader>fF", function() telescope_builtin.find_files({ hidden = true, no_ignore = true }) end,
+				{ desc = "plugins/telescope: fuzzy find through project files" }
+			)
+			NMAP(
 				"<leader>fh", telescope_builtin.help_tags,
 				{ desc = "plugins/telescope: fuzzy find through neovim help tags" }
 			)
