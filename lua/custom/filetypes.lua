@@ -1,5 +1,5 @@
 -- add some filetypes
-vim.filetype.add(vim.tbl_extend("force", {
+vim.filetype.add(vim.tbl_deep_extend("force", {
 	extension = {
 		env = "dotenv",
 	},
@@ -9,4 +9,4 @@ vim.filetype.add(vim.tbl_extend("force", {
 	pattern = {
 		["%.env%.[%w_.-]+"] = "dotenv",
 	}
-}, OPTS.additional_iletypes));
+}, OPTS.additional_filetypes));
