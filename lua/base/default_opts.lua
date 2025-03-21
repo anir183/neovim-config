@@ -9,6 +9,20 @@ return {
 		-- 	...
 		-- },
 	},
+	additional_filetypes = {
+		-- add new filetype corrsponding to extension
+		extension = {
+			-- ext = "filetype",
+		},
+		-- add new filetype corrsponding to filename
+		filename = {
+			-- ["name.ext"] = "filetype",
+		},
+		-- add new filetype corrsponding to pattern
+		pattern = {
+			-- ["regex_pattern"] = "filetype",
+		}
+	},
 	after = function()
 		-- anything here gets executed on VimEnter after the config has been definitely loaded
 	end,
@@ -18,13 +32,15 @@ return {
 		lua_ls = { settings = { Lua = { callSnippet = "Replace" } } },
 	},
 	formatters = {
-		-- mason package names can differ from linter names
+		-- mason package names can differ from formatter names
 		-- list of names can be found in mason via the :Mason command
 		mason = {
 			-- "mason_package_names",
+			-- "clang-format",
 		},
 		-- possible formatters https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters
 		-- filetype = { "formatter1", "foramtter2", stop_after_first = false },
+		-- c = { "clang-format" },
 	},
 	-- setup examples in https://github.com/stevearc/conform.nvim?tab=readme-ov-file#customizing-formatters
 	custom_formatters = {
@@ -75,7 +91,7 @@ return {
 	},
 	cloak_patterns = {
 		{
-			file_pattern = { "*.env", ".env*" },
+			file_pattern = { "*.env", ".env*", },
 			cloak_pattern = { "=.+", ":.=" },
 			replace = nil,
 		},
