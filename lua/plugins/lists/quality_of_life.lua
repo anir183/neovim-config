@@ -46,12 +46,12 @@ return {
 		name = "cloak",
 		config = function()
 			require("cloak").setup({
-				cloak_character = 🤫,
+				cloak_character = "🤫",
 				patterns = OPTS.cloak_patterns
 			})
 
 			NMAP("<leader>ct", vim.cmd.CloakToggle, { desc = "plugins/cloak: toggle cloak hiding" })
-			NMAP("<leader>cl", vim.cmd.CloakPreviewLine, { desc = "plugins/cloak: preview current line" })
+			NMAP("<leader>CT", vim.cmd.CloakPreviewLine, { desc = "plugins/cloak: preview current line" })
 		end
 	},
 
