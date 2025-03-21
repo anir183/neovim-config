@@ -51,7 +51,7 @@ return {
 		name = "cloak",
 		config = function()
 			require("cloak").setup({
-				cloak_character = "🤫",
+				cloak_character = "*",
 				patterns = OPTS.cloak_patterns
 			})
 
