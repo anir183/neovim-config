@@ -26,6 +26,18 @@ return {
 	after = function()
 		-- anything here gets executed on VimEnter after the config has been definitely loaded
 	end,
+	ts_parsers = {
+		-- additional parser and/or configurations
+		-- parser_name = { parser parameters }
+		dotenv = {
+			install_info = {
+				url = "https://github.com/pnx/tree-sitter-dotenv",
+				branch = "main",
+				files = { "src/parser.c", "src/scanner.c" },
+			},
+			filetype = "dotenv",
+		}
+	},
 	lsps = {
 		-- list of lsp names can be found in mason via the :Mason command
 		-- lsp_name = { lspopts }, -- alternatively false to only install and not setup

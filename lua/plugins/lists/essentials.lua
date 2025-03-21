@@ -187,6 +187,11 @@ return {
 					additional_vim_regex_highlighting = false,
 				},
 			})
+
+			local parsers_config = require("nvim-treesitter.parsers").get_parser_configs();
+			for parser_name, parser_body in pairs(OPTS.ts_parsers) do
+				parsers_config[parser_name] = parser_body;
+			end
 		end,
 	}
 }
