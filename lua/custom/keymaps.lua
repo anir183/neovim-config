@@ -65,6 +65,14 @@ NMAP("<leader>cl", function()
 	vim.ui.input({ prompt = "Enter color column value: " }, function(input)
 		if not input then return end
 
+		vim.opt_local.colorcolumn = input;
+	end);
+end, { desc = "core/custom: change the color column position" });
+
+NMAP("<leader>CL", function()
+	vim.ui.input({ prompt = "Enter color column value: " }, function(input)
+		if not input then return end
+
 		vim.opt.colorcolumn = input;
 	end);
 end, { desc = "core/custom: change the color column position" });
