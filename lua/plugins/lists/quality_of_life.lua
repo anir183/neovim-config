@@ -1,6 +1,17 @@
 --[[ plugins adding some pretty cool qol features but are not "necessary" for me]]
 
 return {
+	-- pretty good file explorer
+	{
+		"stevearc/oil.nvim",
+		dependencies = { "devicons" },
+		config = function()
+			require("oil").setup({ default_file_explorer = false });
+
+			NMAP("<leader>E", vim.cmd.Oil, { desc = "plugins/oil: open the oil file explorer" });
+		end
+	},
+
 	-- full screen zen mode
 	{
 		"folke/zen-mode.nvim",
