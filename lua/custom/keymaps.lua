@@ -12,7 +12,7 @@ NMAP("zt", function()
 	-- vim.opt.foldcolumn returns a table instead of the required value
 	---@diagnostic disable-next-line: undefined-field
 	vim.opt.foldcolumn = vim.opt.foldcolumn._value == "0" and "auto:9" or "0";
-end, { desc = "core/custom: toggle relative line numbers" });
+end, { desc = "core/custom: toggle fold column" });
 
 -- edit options in a popup
 NMAP("<leader>op", function()
