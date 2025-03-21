@@ -6,7 +6,12 @@ return {
 		"stevearc/oil.nvim",
 		dependencies = { "devicons" },
 		config = function()
-			require("oil").setup({ default_file_explorer = false });
+			require("oil").setup({
+				default_file_explorer = false,
+				view_options = {
+					show_hidden = true
+				}
+			});
 
 			NMAP("<leader>E", vim.cmd.Oil, { desc = "plugins/oil: open the oil file explorer" });
 		end
