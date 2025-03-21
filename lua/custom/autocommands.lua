@@ -2,10 +2,10 @@
 
 local new_aucmd = vim.api.nvim_create_autocmd;
 
--- disable color column in netrw, undotree and help pages
+-- disable color column in netrw, oil, undotree and help pages
 new_aucmd("FileType", {
 	group = AUGRP,
-	pattern = { "netrw", "help", "undotree" },
+	pattern = { "netrw", "oil", "help", "undotree" },
 	callback= function()
 		vim.opt_local.colorcolumn = "0";
 		vim.opt_local.statuscolumn = "%s";
@@ -21,11 +21,11 @@ new_aucmd("TextYankPost", {
 	end
 });
 
--- disable number column when in netrw and undotree
+-- disable number column when in netrw, oil and undotree
 -- NOTE : The winleave and focuslost autocommands are used to counteract the autocommand below this one
 new_aucmd({ "winEnter", "WinLeave", "FocusLost", "FocusGained", "BufReadPre", "FileReadPre" }, {
 	group = AUGRP,
-	pattern = { "netrw", "undotree" },
+	pattern = { "netrw", "oi", "undotree" },
 	callback = function()
 		vim.opt_local.number = false;
 		vim.opt_local.relativenumber = false;
