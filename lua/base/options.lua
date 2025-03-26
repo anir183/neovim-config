@@ -26,7 +26,7 @@ opt.whichwrap:append("l");
 
 -- indents
 opt.expandtab = false;                                                                                                   -- use tabs instead of spaces
-opt.tabstop = 6;                                                                                                         -- spaces contained in one tab (presumably in normal mode)
+opt.tabstop = 4;                                                                                                         -- spaces contained in one tab (presumably in normal mode)
 opt.shiftwidth = 0;                                                                                                      -- spaces in each level of indentation (0 sets it to tabstop)
 opt.softtabstop = -1;                                                                                                    -- spaces contained in a tab (-1 sets it to shiftwidth, presumably in insert mode)
 opt.autoindent = true;                                                                                                   -- auto indent new lines based on current line

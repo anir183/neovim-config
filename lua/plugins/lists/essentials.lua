@@ -10,6 +10,7 @@ return {
 		config = function()
 			local harpoon = require("harpoon")
 
+			---@diagnostic disable-next-line: missing-fields
 			harpoon.setup({
 				settings = {
 					save_on_toggle = true,
@@ -58,111 +59,106 @@ return {
 		end,
 	},
 
+	-- set of cool features
 	{
-		"nvim-telescope/telescope.nvim",
-		name = "telescope",
-		branch = "0.1.x",
-		dependencies = { "plenary", "devicons" },
+		"folke/snacks.nvim",
+		name = "snacks",
+		priority = 1000, -- some plugins may depend on snacks
 		config = function()
-			require("telescope").setup({
-				picker = { buffers = { initial_mode = "normal" } }
-			})
+			require("snacks").setup({
+				bigfile = { enabled = true },
+				input = { enabled = true },
+				indent = { enabled = true, scope = { enabled = false }  },
+				lazygit = { enabled = true },
+				picker = { enabled = true },
+				notifier = { enabled = true },
+				dim = { enabled = true },
+				notify = { enabled = true },
+				rename = { enabled = true },
+				quickfile = { enabled = true },
+				scope = { enabled = true },
+				words = { enabled = true },
+				zen = { enabled = true }
+			});
 
-			local telescope_builtin = require("telescope.builtin")
-
-			NMAP(
-				"<leader>/", telescope_builtin.current_buffer_fuzzy_find,
-				{ desc = "plugins/telescope: fuzzy find through current buffer" }
-			)
-			NMAP(
-				"<leader>ff", telescope_builtin.find_files,
-				{ desc = "plugins/telescope: fuzzy find through project files" }
-			)
-			NMAP(
-				"<leader>FF", function() telescope_builtin.find_files({ hidden = true }) end,
-				{ desc = "plugins/telescope: fuzzy find through project files" }
-			)
-			NMAP(
-				"<leader>fF", function() telescope_builtin.find_files({ hidden = true, no_ignore = true }) end,
-				{ desc = "plugins/telescope: fuzzy find through project files" }
-			)
-			NMAP(
-				"<leader>fh", telescope_builtin.help_tags,
-				{ desc = "plugins/telescope: fuzzy find through neovim help tags" }
-			)
-			NMAP(
-				"<leader>fn",
-				function() telescope_builtin.find_files({ cwd = vim.fn.stdpath("config") }) end,
-				{ desc = "plugins/telescope: fuzzy find through neovim config files" }
-			)
-			NMAP(
-				"<leader>fo", telescope_builtin.oldfiles,
-				{ desc = "plugins/telescope: fuzzy find through recent files" }
-			)
-			NMAP(
-				"<leader>fk", telescope_builtin.keymaps,
-				{ desc = "plugins/telescope: fuzzy find through all keymaps" }
-			)
-			NMAP(
-				"<leader>fg", telescope_builtin.live_grep,
-				{ desc = "plugins/telescope: fuzzy find through grep results live" }
-			)
-			NMAP(
-				"<leader>fr", telescope_builtin.registers,
-				{ desc = "plugins/telescope: fuzzy find through vim registers" }
-			)
-			NMAP(
-				"<leader>fb", telescope_builtin.buffers,
-				{ desc = "plugins/telescope: fuzzy find through all open buffers" }
-			)
-			NMAP(
-				"<leader>fc", telescope_builtin.commands,
-				{ desc = "plugins/telescope: fuzzy find through all commands" }
-			)
-			NMAP(
-				"gr", telescope_builtin.lsp_references,
-				{ desc = "plugins/telescope: fuzzy find through the references of the word under cursor" }
-			)
-			NMAP(
-				"gI", telescope_builtin.lsp_implementations,
-				{ desc = "plugins/telescope: fuzzy find throught the implemtations of word under cursor" }
-			)
-
-			vim.api.nvim_create_autocmd("LspAttach", {
+			vim.api.nvim_create_autocmd("User", {
 				group = AUGRP,
-				callback = function()
-					-- Jump to the definition of the word under your cursor.
-					--  This is where a variable was first declared, or where a function is defined, etc.
-					--  To jump back, press <C-t>.
-					NMAP("gd", telescope_builtin.lsp_definitions,
-						{ desc = "plugins/telescope: goto definition" })
-
-					-- Find references for the word under your cursor.
-					NMAP("gr", telescope_builtin.lsp_references,
-						{ desc = "plugins/telescope: goto references" })
-
-					-- Jump to the implementation of the word under your cursor.
-					--  Useful when your language has ways of declaring types without an actual implementation.
-					NMAP("gI", telescope_builtin.lsp_implementations,
-						{ desc = "plugins/telescope: goto implementation" })
-
-					-- Jump to the type of the word under your cursor.
-					--  Useful when you're not sure what type a variable is and you want to see
-					--  the definition of its *type*, not where it was *defined*.
-					NMAP("<leader>td", telescope_builtin.lsp_type_definitions,
-						{ desc = "plugins/telescope: lsp type definitions" })
-
-					-- Fuzzy find all the symbols in your current document.
-					--  Symbols are things like variables, functions, types, etc.
-					NMAP("<leader>ds", telescope_builtin.lsp_document_symbols,
-						{ desc = "plugins/telescope: lsp document symbols" })
-
-					-- Fuzzy find all the symbols in your current workspace.
-					--  Similar to document symbols, except searches over your entire project.
-					NMAP("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols,
-						{ desc = "plugins/telescope: lsp dynamic workspace symbols" })
-				end
+				pattern = "OilActionsPost",
+				callback = function(event)
+					if event.data.actions.type == "move" then
+						Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
+					end
+				end,
 			})
+
+			NMAP("<leader><space>", function() Snacks.picker.smart() end, { desc = "plugins/snacks: smart find files" });
+			NMAP("<leader>,", function() Snacks.picker.buffers() end, { desc = "plugins/snacks: buffers" });
+			NMAP("<leader>/", function() Snacks.picker.grep() end, { desc = "plugins/snacks: grep" });
+			NMAP("<leader>:", function() Snacks.picker.command_history() end, { desc = "plugins/snacks: command history" });
+			NMAP("<leader>n", function() Snacks.picker.notifications() end, { desc = "plugins/snacks: notification history" });
+			NMAP("<leader>e", function() Snacks.explorer() end, { desc = "plugins/snacks: file explorer" });
+
+			-- Find
+			---@diagnostic disable-next-line: assign-type-mismatch
+			NMAP("<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "plugins/snacks: find config file" });
+			NMAP("<leader>ff", function() Snacks.picker.files() end, { desc = "plugins/snacks: find files" });
+			NMAP("<leader>fg", function() Snacks.picker.git_files() end, { desc = "plugins/snacks: find git files" });
+			NMAP("<leader>fp", function() Snacks.picker.projects() end, { desc = "plugins/snacks: projects" });
+			NMAP("<leader>fr", function() Snacks.picker.recent() end, { desc = "plugins/snacks: recent" });
+
+			-- Git
+			NMAP("<leader>gb", function() Snacks.picker.git_branches() end, { desc = "plugins/snacks: git branches" });
+			NMAP("<leader>gl", function() Snacks.picker.git_log() end, { desc = "plugins/snacks: git log" });
+			NMAP("<leader>gL", function() Snacks.picker.git_log_line() end, { desc = "plugins/snacks: git log line" });
+			NMAP("<leader>gs", function() Snacks.picker.git_status() end, { desc = "plugins/snacks: git status" });
+			NMAP("<leader>gS", function() Snacks.picker.git_stash() end, { desc = "plugins/snacks: git stash" });
+			NMAP("<leader>gd", function() Snacks.picker.git_diff() end, { desc = "plugins/snacks: git diff (hunks)" });
+			NMAP("<leader>gf", function() Snacks.picker.git_log_file() end, { desc = "plugins/snacks: git log file" });
+
+			-- Grep
+			NMAP("<leader>sb", function() Snacks.picker.lines() end, { desc = "plugins/snacks: buffer lines" });
+			NMAP("<leader>sB", function() Snacks.picker.grep_buffers() end, { desc = "plugins/snacks: grep open buffers" });
+			NMAP("<leader>sg", function() Snacks.picker.grep() end, { desc = "plugins/snacks: grep" });
+			MAP({ "n", "x" }, "<leader>sw", function() Snacks.picker.grep_word() end, { desc = "plugins/snacks: visual selection or word" });
+
+			-- Search
+			NMAP('<leader>s"', function() Snacks.picker.registers() end, { desc = "plugins/snacks: registers" });
+			NMAP('<leader>s/', function() Snacks.picker.search_history() end, { desc = "plugins/snacks: search history" });
+			NMAP("<leader>sb", function() Snacks.picker.lines() end, { desc = "plugins/snacks: buffer lines" });
+			NMAP("<leader>sC", function() Snacks.picker.commands() end, { desc = "plugins/snacks: commands" });
+			NMAP("<leader>sd", function() Snacks.picker.diagnostics() end, { desc = "plugins/snacks: diagnostics" });
+			NMAP("<leader>sD", function() Snacks.picker.diagnostics_buffer() end, { desc = "plugins/snacks: buffer diagnostics" });
+			NMAP("<leader>sh", function() Snacks.picker.help() end, { desc = "plugins/snacks: help pages" });
+			NMAP("<leader>sH", function() Snacks.picker.highlights() end, { desc = "plugins/snacks: highlights" });
+			NMAP("<leader>sj", function() Snacks.picker.jumps() end, { desc = "plugins/snacks: jumps" });
+			NMAP("<leader>sk", function() Snacks.picker.keymaps() end, { desc = "plugins/snacks: keymaps" });
+			NMAP("<leader>sl", function() Snacks.picker.loclist() end, { desc = "plugins/snacks: location list" });
+			NMAP("<leader>sm", function() Snacks.picker.marks() end, { desc = "plugins/snacks: marks" });
+			NMAP("<leader>sq", function() Snacks.picker.qflist() end, { desc = "plugins/snacks: quickfix list" });
+
+			-- -- LSP
+			NMAP("gd", function() Snacks.picker.lsp_definitions() end, { desc = "plugins/snacks: goto definition" });
+			NMAP("gD", function() Snacks.picker.lsp_declarations() end, { desc = "plugins/snacks: goto declaration" });
+			NMAP("gr", function() Snacks.picker.lsp_references() end, { desc = "plugins/snacks: references", nowait = true });
+			NMAP("gI", function() Snacks.picker.lsp_implementations() end, { desc = "plugins/snacks: goto implementation" });
+			NMAP("gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "plugins/snacks: goto t[y]pe definition" });
+			NMAP("<leader>ls", function() Snacks.picker.lsp_symbols() end, { desc = "plugins/snacks: lsp symbols" });
+			NMAP("<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "plugins/snacks: lsp workspace symbols" });
+
+			-- -- Other
+			NMAP("<leader>z",  function() Snacks.zen() end, { desc = "plugins/snacks: toggle zen mode" });
+			NMAP("<leader>Z",  function() Snacks.zen.zoom() end, { desc = "plugins/snacks: toggle zoom" });
+			NMAP("<leader>.",  function() Snacks.scratch() end, { desc = "plugins/snacks: toggle scratch buffer" });
+			NMAP("<leader>S",  function() Snacks.scratch.select() end, { desc = "plugins/snacks: select scratch buffer" });
+			NMAP("<leader>n",  function() Snacks.notifier.show_history() end, { desc = "plugins/snacks: notification history" });
+			NMAP("<leader>bd", function() Snacks.bufdelete() end, { desc = "plugins/snacks: delete buffer" });
+			NMAP("<leader>cR", function() Snacks.rename.rename_file() end, { desc = "plugins/snacks: rename file" });
+			MAP({ "n", "v" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "plugins/snacks: git browse" });
+			NMAP("<leader>gg", function() Snacks.lazygit() end, { desc = "plugins/snacks: lazygit" });
+			NMAP("<leader>un", function() Snacks.notifier.hide() end, { desc = "plugins/snacks: dismiss all notifications" });
+			NMAP("<c-/>",      function() Snacks.terminal() end, { desc = "plugins/snacks: toggle terminal" });
+			MAP({ "n", "t" }, "]]", function() Snacks.words.jump(vim.v.count1) end, { desc = "plugins/snacks: next reference" });
+			MAP({ "n", "t" }, "[[", function() Snacks.words.jump(-vim.v.count1) end, { desc = "plugins/snacks: prev reference" });
 		end
 	},
 

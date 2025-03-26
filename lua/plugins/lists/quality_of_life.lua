@@ -1,9 +1,11 @@
 --[[ plugins adding some pretty cool qol features but are not "necessary" for me]]
 
 return {
+
 	-- pretty good file explorer
 	{
 		"stevearc/oil.nvim",
+		name = "oil",
 		dependencies = { "devicons" },
 		config = function()
 			require("oil").setup({
@@ -18,31 +20,16 @@ return {
 		end
 	},
 
-	-- full screen zen mode
+	-- a breakvrumbs bar among other things
 	{
-		"folke/zen-mode.nvim",
-		name = "zen_mode",
+		"Bekaboo/dropbar.nvim",
+		name = "dropbar",
 		config = function()
-			require("zen-mode").setup();
+			local dropbar_api = require('dropbar.api')
 
-			NMAP(
-				"<leader>zm",
-				function()
-					require("zen-mode").toggle({
-						window = { width = 1 }
-					});
-				end,
-				{ desc = "plugins/zen-mode: toggle zen mode" }
-			);
-		end
-	},
-
-	-- integrates lazygit cli
-	{
-		"kdheepak/lazygit.nvim",
-		dependencies = { "plenary" },
-		config = function()
-			NMAP("<leader>lg", vim.cmd.LazyGit, { desc = "plugins/lazygit: toggle lazy git window" });
+			vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
 		end
 	},
 
@@ -129,7 +116,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		name = "todo_comments",
-		dependencies = { "plenary", "telescope" },
+		dependencies = { "plenary" },
 		config = function()
 			local todo_comments = require("todo-comments")
 			todo_comments.setup()

@@ -65,14 +65,6 @@ NMAP("<leader>cl", function()
 	vim.ui.input({ prompt = "Enter color column value: " }, function(input)
 		if not input then return end
 
-		vim.opt_local.colorcolumn = input;
-	end);
-end, { desc = "core/custom: change the color column position" });
-
-NMAP("<leader>CL", function()
-	vim.ui.input({ prompt = "Enter color column value: " }, function(input)
-		if not input then return end
-
 		vim.opt.colorcolumn = input;
 	end);
 end, { desc = "core/custom: change the color column position" });
@@ -152,7 +144,7 @@ NMAP(
 );
 
 -- substitute
-NMAP("<leader>sw", function()
+NMAP("<leader>SW", function()
 	vim.ui.input({ prompt = "Enter the target: " }, function(target)
 		if not target or target == "" then return end
 
@@ -169,7 +161,7 @@ NMAP("<leader>sw", function()
 		end);
 	end);
 end, { desc = "core/custom: substitute standalone occurences of inputted word (not string)" });
-NMAP("<leader>ss", function()
+NMAP("<leader>SS", function()
 	vim.ui.input({ prompt = "Enter the target: " }, function(target)
 		if not target or target == "" then return end
 

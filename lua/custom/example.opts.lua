@@ -11,12 +11,11 @@ return {
 		{
 			"nvim-flutter/flutter-tools.nvim",
 			name = "flutter_tools",
-			dependencies = { "plenary", "lspconfig", "dap", "telescope" },
+			dependencies = { "plenary", "lspconfig", "dap" },
 			config = function()
 				require("flutter-tools").setup({
 					debugger = { enabled = true },
 				});
-				require("telescope").load_extension("flutter");
 			end
 		},
 		{
